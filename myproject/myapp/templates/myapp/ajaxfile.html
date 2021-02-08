@@ -1,0 +1,201 @@
+<script>
+    $("#btnsave").click(function () {
+        //console.log("btn clicked");
+        output="";
+        let name = $("#nameid").val();
+        let email = $("#emailid").val();
+        let contact = $("#contactid").val();
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        // console.log(name);
+        // console.log(email);
+        // console.log(contact);
+
+        userData = {
+            name: name,
+            email: email,
+            contact: contact,
+            csrfmiddlewaretoken: csr,
+        };
+        $.ajax(
+            {
+                url: "{% url 'register-user' %}",
+                method: "POST",
+                data: userData,
+                success: function (response) {
+                    console.log("---> response", response.context.msg);
+                    console.log("---> response", response.context.status);
+                    x = response.context.udata; // getting all data from response
+                    if (response.context.status == "save") {
+                        //console.log("--------------->data",response.context.udata);
+
+                        for (i = 0; i < x.length; i++) {
+                           
+                            output+="<tr><td>"+x[i].id+"</td><td>"+x[i].name+"</td><td>"+x[i].email+"</td><td>"+x[i].contact+"</td><td> <input type='button' class='btn btn-warning btn-sm btn-edit' value='Edit'  data-sid="+x[i].id+" /> <input type='button' class='btn btn-warning btn-sm btn-del' value='Delete' data-sid="+x[i].id+" />"   
+                        }
+                        $("#tbody").html(output);
+                        $("form")[1].reset();
+                    }
+                    else {
+
+                    }
+                }
+            },
+        );
+    });
+
+
+    $("#btnsearch").click(function(){
+        output="";
+        console.log("search btn clicked");
+        let searchname=$('#searchname').val();
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        userData = {
+            searchname: searchname,
+            csrfmiddlewaretoken: csr,
+        };
+        $.ajax(
+            {
+                url: "{% url 'search-user' %}",
+                method: "POST",
+                data: userData,
+                success: function (response) {
+                    console.log("---> response", response.context.data);
+                    x = response.context.data; // getting all data from response
+                    if (response.context.status == "result found") {
+                        //console.log("--------------->data",response.context.udata);
+                        for (i = 0; i < x.length; i++) {
+                            output+="<tr><td>"+x[i].id+"</td><td>"+x[i].name+"</td><td>"+x[i].email+"</td><td>"+x[i].contact+"</td><td> <input type='button' class='btn btn-warning btn-sm btn-edit' value='Edit'  data-sid="+x[i].id+" /> <input type='button' class='btn btn-warning btn-sm btn-del' value='Delete' data-sid="+x[i].id+" />"   
+                        }
+                        $("#tbody").html(output);
+                        $("form")[0].reset();
+                    }
+                    else {
+
+                    }
+                }
+            },
+        );
+   
+    });
+
+
+    // delete data : 
+    $("tbody").on('click',".btn-del",function(){
+        output="";
+        console.log("del button clicked");
+        let id=$(this).attr('data-sid');
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        console.log(id);
+        mydata={
+            id:id,
+            csrfmiddlewaretoken: csr,
+        }
+        $.ajax(
+            {
+                url: "{% url 'del-user' %}",
+                method: "POST",
+                data: mydata,
+                success: function (response) {
+                    //console.log("---> response", response.context.data);
+                    x = response.data; // getting all data from response
+                    
+                    //console.log("--------------->data",response.context.udata);
+                    for (i = 0; i < x.length; i++) {
+                        output+="<tr><td>"+x[i].id+"</td><td>"+x[i].name+"</td><td>"+x[i].email+"</td><td>"+x[i].contact+"</td><td> <input type='button' class='btn btn-warning btn-sm btn-edit' value='Edit'  data-sid="+x[i].id+" /> <input type='button' class='btn btn-warning btn-sm btn-del' value='Delete' data-sid="+x[i].id+" />"   
+                    }
+                    $("#tbody").html(output);
+                    //$("form")[0].reset();
+                   
+                }
+            },
+        );
+   
+    });
+
+
+    $("#btnsave").click(function () {
+        //console.log("btn clicked");
+        output="";
+        let name = $("#nameid").val();
+        let email = $("#emailid").val();
+        let contact = $("#contactid").val();
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        // console.log(name);
+        // console.log(email);
+        // console.log(contact);
+
+        userData = {
+            name: name,
+            email: email,
+            contact: contact,
+            csrfmiddlewaretoken: csr,
+        };
+        $.ajax(
+            {
+                url: "{% url 'register-user' %}",
+                method: "POST",
+                data: userData,
+                success: function (response) {
+                    console.log("---> response", response.context.msg);
+                    console.log("---> response", response.context.status);
+                    x = response.context.udata; // getting all data from response
+                    if (response.context.status == "save") {
+                        //console.log("--------------->data",response.context.udata);
+
+                        for (i = 0; i < x.length; i++) {
+                           
+                            output+="<tr><td>"+x[i].id+"</td><td>"+x[i].name+"</td><td>"+x[i].email+"</td><td>"+x[i].contact+"</td><td> <input type='button' class='btn btn-warning btn-sm btn-edit' value='Edit'  data-sid="+x[i].id+" /> <input type='button' class='btn btn-warning btn-sm btn-del' value='Delete' data-sid="+x[i].id+" />"   
+                        }
+                        $("#tbody").html(output);
+                        $("form")[1].reset();
+                    }
+                    else {
+
+                    }
+                }
+            },
+        );
+    });
+
+
+    $(document).on("change", "#myselect" , function(){
+		var selected = $(this).val();
+        output="";
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        console.log("----------->",selected);
+		if(selected=="Select Product")
+		{
+            // console("---------> select product",selected);
+            output+="<option value='select brand' disabled selected>select brand</option>";
+			$("#brand").html(output);	
+		}
+		else
+        {
+            userData = {
+                selected: selected,
+                csrfmiddlewaretoken: csr,
+            };
+            $.ajax({
+                method:"POST",
+                data:  userData,
+                url : "{% url 'get-brand' %}",
+                // output+="<option value="+x[i].brand_name+" >"+x[i.brand_name]+" </option>";
+                success: function(response)
+                        {
+                                //console.log("------------>res.data",response.data.brand_name);
+                                //console.log("------------>res.data",response.data.brand_name);
+                            console.log("clickkkkk");
+                            x = response.context.data; // getting all data from response
+                            //console.log("--------------->data",response.context.udata);
+                            for (i = 0; i < x.length; i++) 
+                            {
+                                console.log("--> X ",x[i].brand_name);
+                                // output+="<tr><td>"+x[i].id+"</td><td>"+x[i].name+"</td><td>"+x[i].email+"</td><td>"+x[i].contact+"</td><td> <input type='button' class='btn btn-warning btn-sm btn-edit' value='Edit'  data-sid="+x[i].id+" /> <input type='button' class='btn btn-warning btn-sm btn-del' value='Delete' data-sid="+x[i].id+" />"   
+                                output+="<option value="+x[i].brand_name+" >"+x[i].brand_name+" </option>";
+                            }
+                            $("#brand").html(output);               
+                        }
+            });
+	    }
+	});
+</script>
