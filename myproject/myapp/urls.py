@@ -23,5 +23,10 @@ urlpatterns = [
     path('search-user/',views.search_user,name="search-user"),
     path('del-user/',views.del_user,name="del-user"),
     path('get-brand/',views.get_brand,name="get-brand"),
+
+
+    # javascript validation 
+
+    path('javascript-validation-page/',views.javascript_validation_page,name="javascript-validation-page"),
     
 ]

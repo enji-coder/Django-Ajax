@@ -87,3 +87,6 @@ def get_brand(request):
     }
     print("------------------------>context :",data)
     return JsonResponse({'context':context})
+
+def javascript_validation_page(request):
+    return render(request,'myapp/javascript_validation_register.html')
